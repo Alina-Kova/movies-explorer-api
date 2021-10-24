@@ -1,0 +1,26 @@
+{
+  "name": "movies-explorer-api",
+  "version": "0.0.1",
+  "description": "Yandex.practicum diploma - Movies explorer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alina-Kova/movies-explorer-api.git"
+  },
+  "author": "Alina Kotikova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alina-Kova/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Alina-Kova/movies-explorer-api#readme",
+  "devDependencies": {
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1"
+  }
+}
