@@ -12,13 +12,22 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 // подключаемся к серверу mongo
-mongoose.connect('mongodb://localhost:27017/mestodb', {
+mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
 
+const corsOptions = [
+  'http://localhost:3000',
+  'https://alina.mesto.nomoredomains.monster',
+  'https://api.alina.mesto.nomoredomains.monster',
+  'http://alina.mesto.nomoredomains.monster',
+  'http://api.alina.mesto.nomoredomains.monster',
+];
+
+// eslint-disable-next-line consistent-return
 app.use((req, res, next) => {
   const { origin } = req.headers;
   if (corsOptions.includes(origin)) {
@@ -49,9 +58,9 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-
 app.use(errorLogger);
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`App listening on port ${PORT}`);
 });
