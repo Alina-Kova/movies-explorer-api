@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
 const NotFoundError = require('./errors/not-found-err');
@@ -62,6 +63,9 @@ app.get('/crash-test', () => {
 
 app.use(errorLogger);
 
+app.use(errors());
+
+// обрабатываем ошибку 404
 app.use('*', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден.');
 });
