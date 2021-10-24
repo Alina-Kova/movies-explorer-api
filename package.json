@@ -2,7 +2,7 @@
   "name": "movies-explorer-api",
   "version": "0.0.1",
   "description": "Yandex.practicum diploma - Movies explorer",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint .",
@@ -20,7 +20,24 @@
   },
   "homepage": "https://github.com/Alina-Kova/movies-explorer-api#readme",
   "devDependencies": {
-    "webpack": "^5.59.1",
-    "webpack-cli": "^4.9.1"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "nodemon": "^2.0.14"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "celebrate": "^15.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.5.0",
+    "express-winston": "^4.2.0",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.12",
+    "validator": "^13.6.0",
+    "winston": "^3.3.3"
   }
 }
