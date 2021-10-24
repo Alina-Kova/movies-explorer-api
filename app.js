@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const auth = require('./middlewares/auth');
+const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
-const NotFoundError = require('./errors/not-found-err');
+const { route } = require('./routes');
 require('dotenv').config();
 
 const app = express();
@@ -61,14 +61,11 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
+app.use('/', route);
+
 app.use(errorLogger);
 
 app.use(errors());
-
-// обрабатываем ошибку 404
-app.use('*', () => {
-  throw new NotFoundError('Запрашиваемый ресурс не найден.');
-});
 
 // обрабатываем ошибку 500
 app.use((err, req, res, next) => {
