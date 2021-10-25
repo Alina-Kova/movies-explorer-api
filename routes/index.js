@@ -6,11 +6,12 @@ const usersRoutes = require('./users');
 const moviesRoutes = require('./movies');
 const NotFoundError = require('../errors/not-found-err');
 
-router.post('/signin', loginValidation, login);
 router.post('/signup', signupValidation, createUser);
+router.post('/signin', loginValidation, login);
 
-router.use(auth, usersRoutes);
-router.use(auth, moviesRoutes);
+router.use(auth);
+router.use('/users', usersRoutes);
+router.use('/movies', moviesRoutes);
 
 // обрабатываем ошибку 404
 router.use('*', () => {

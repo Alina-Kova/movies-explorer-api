@@ -7,15 +7,13 @@ const { errors } = require('celebrate');
 const middlewaresErrors = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
-const { route } = require('./routes');
-require('dotenv').config();
+const router = require('./routes');
+const { DATA_BASE, PORT } = require('./utils/config');
 
 const app = express();
 
-const { PORT = 3000 } = process.env;
-
 // подключаемся к серверу mongo
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -23,11 +21,11 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 });
 
 const corsOptions = [
-  // 'http://localhost:3000',
-  // 'https://alina.mesto.nomoredomains.monster',
-  // 'https://api.alina.mesto.nomoredomains.monster',
-  // 'http://alina.mesto.nomoredomains.monster',
-  // 'http://api.alina.mesto.nomoredomains.monster',
+  'http://localhost:3000',
+  'https://movies.poisk.nomoredomains.rocks',
+  'https://api.movies.poisk.nomoredomains.rocks',
+  'http://movies.poisk.nomoredomains.rocks',
+  'http://api.movies.poisk.nomoredomains.rocks',
 ];
 
 // eslint-disable-next-line consistent-return
@@ -62,7 +60,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use('/', route);
+app.use(router);
 
 app.use(errorLogger);
 
