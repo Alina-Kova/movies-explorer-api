@@ -8,6 +8,7 @@ const IncorrectDataError = require('../errors/incorrect-data-err');
 const AuthorizationError = require('../errors/auth-err');
 const ExistingDataError = require('../errors/existing-data-err');
 
+// контроллер получения информации текущего пользователя
 module.exports.getMe = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -17,14 +18,15 @@ module.exports.getMe = (req, res, next) => {
       return res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        const error = new NotFoundError('Пользователь с указанным _id не найден.');
+      if (err.name === 'ValidationError') {
+        const error = new IncorrectDataError('Переданы некорректные данные.');
         return next(error);
       }
       return next(err);
     });
 };
 
+// контроллер создания нового пользователя
 module.exports.createUser = (req, res, next) => {
   const {
     name, email, password,
@@ -45,7 +47,7 @@ module.exports.createUser = (req, res, next) => {
         const error = new ExistingDataError('Пользователь с указанным email уже существует.');
         return next(error);
       }
-      if (err.name === 'ValidationError') {
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
         const error = new IncorrectDataError('Переданы некорректные данные при создании пользователя.');
         return next(error);
       }
@@ -53,6 +55,7 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
+// контроллер обновления информации пользователя
 module.exports.updateProfile = (req, res, next) => {
   const { name, email } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, email },
@@ -76,6 +79,7 @@ module.exports.updateProfile = (req, res, next) => {
     });
 };
 
+// контроллер входа в аккаунт
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 

@@ -3,12 +3,14 @@ const NotFoundError = require('../errors/not-found-err');
 const IncorrectDataError = require('../errors/incorrect-data-err');
 const ForbiddenError = require('../errors/forbidden-err');
 
+// контроллер поиска фиальма
 module.exports.getMovie = (req, res, next) => {
   Movie.find({})
     .then((movie) => res.send({ data: movie }))
     .catch(next);
 };
 
+// контроллер создания нового фиальма
 module.exports.createMovie = (req, res, next) => {
   const {
     country,
@@ -47,6 +49,7 @@ module.exports.createMovie = (req, res, next) => {
     });
 };
 
+// контроллер удаления фиальма
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     // eslint-disable-next-line consistent-return

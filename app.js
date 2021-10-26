@@ -13,12 +13,7 @@ const { DATA_BASE, PORT } = require('./utils/config');
 const app = express();
 
 // подключаемся к серверу mongo
-mongoose.connect(DATA_BASE, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
+mongoose.connect(DATA_BASE);
 
 const corsOptions = [
   'http://localhost:3000',
