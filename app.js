@@ -17,7 +17,7 @@ const app = express();
 mongoose.connect(DATA_BASE);
 
 const corsOptions = [
-  'http://localhost:3000',
+  'http://localhost:3001',
   'https://movies.poisk.nomoredomains.rocks',
   'https://api.movies.poisk.nomoredomains.rocks',
   'http://movies.poisk.nomoredomains.rocks',
