@@ -2,6 +2,13 @@ const Movie = require('../models/movies');
 const NotFoundError = require('../errors/not-found-err');
 const IncorrectDataError = require('../errors/incorrect-data-err');
 const ForbiddenError = require('../errors/forbidden-err');
+const {
+  BAD_MOVIE_DATA_REQUEST,
+  NOT_FOUND_MOVIE_ID,
+  FORBIDDEN_ERROR,
+  VALIDATION_ERROR,
+  CAST_ERROR,
+} = require('../utils/constants');
 
 // контроллер поиска фиальма
 module.exports.getMovie = (req, res, next) => {
@@ -41,8 +48,8 @@ module.exports.createMovie = (req, res, next) => {
   })
     .then((movie) => res.send(movie))
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        const error = new IncorrectDataError('Переданы некорректные данные.');
+      if (err.name === CAST_ERROR || err.name === VALIDATION_ERROR) {
+        const error = new IncorrectDataError(BAD_MOVIE_DATA_REQUEST);
         return next(error);
       }
       return next(err);
@@ -54,19 +61,19 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Фильм с указанным _id не найден.');
+        throw new NotFoundError(NOT_FOUND_MOVIE_ID);
       }
       if (movie.owner.toString() !== req.user._id.toString()) {
-        throw new ForbiddenError('Невозможно удалить фильм, он создан другим пользователем.');
+        throw new ForbiddenError(FORBIDDEN_ERROR);
       }
       return Movie.remove(req.params.movieId)
         .then(() => {
-          res.status(200).send({ message: 'Фильм успешно удален.' });
+          res.status(200).send({ message: SUCCESSFULLY_DELETED });
         });
     })
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        const error = new IncorrectDataError('Переданы некорректные данные.');
+      if (err.name === CAST_ERROR || err.name === VALIDATION_ERROR) {
+        const error = new IncorrectDataError(BAD_MOVIE_DATA_REQUEST);
         return next(error);
       }
       return next(err);

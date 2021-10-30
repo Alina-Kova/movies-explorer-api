@@ -1,11 +1,12 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 const IncorrectDataError = require('../errors/incorrect-data-err');
+const { INVALID_URL_FORMAT } = require('../utils/constants');
 
 const urlValidation = (url) => {
   const value = validator.isURL(url, { protocols: ['http', 'https'], require_protocol: true });
   if (!value) {
-    throw new IncorrectDataError('Неправильный формат cсылки.');
+    throw new IncorrectDataError(INVALID_URL_FORMAT);
   }
 };
 

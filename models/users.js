@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const isEmail = require('validator/lib/isEmail');
 const AuthorizationError = require('../errors/auth-err');
+const {
+  INVALID_DATA,
+  INVALID_EAMIL_FORMAT,
+} = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -23,7 +27,7 @@ const userSchema = new mongoose.Schema({
       validator(email) {
         return isEmail(email);
       },
-      message: 'Неправильный формат почты.',
+      message: INVALID_EAMIL_FORMAT,
     },
   },
 });
@@ -32,12 +36,12 @@ userSchema.statics.findUserByCredentials = function findUser(email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new AuthorizationError('Неправильные почта или пароль');
+        throw new AuthorizationError(INVALID_DATA);
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            throw new AuthorizationError('Неправильные почта или пароль');
+            throw new AuthorizationError(INVALID_DATA);
           }
           return user; // теперь user доступен
         });

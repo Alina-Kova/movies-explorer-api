@@ -10,6 +10,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
 const router = require('./routes');
 const { DATA_BASE, PORT } = require('./utils/config');
+const { SERVER_SHUTDOWN } = require('./utils/constants');
 
 const app = express();
 
@@ -50,7 +51,7 @@ app.use(limiter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(SERVER_SHUTDOWN);
   }, 0);
 });
 

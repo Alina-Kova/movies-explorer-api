@@ -7,13 +7,24 @@ const NotFoundError = require('../errors/not-found-err');
 const IncorrectDataError = require('../errors/incorrect-data-err');
 const AuthorizationError = require('../errors/auth-err');
 const ExistingDataError = require('../errors/existing-data-err');
+const {
+  USER_NOT_FOUND,
+  CONFLICT_EMAIL_ERROR,
+  BAD_DATA_REQUEST,
+  NOT_FOUND_USER_ID,
+  BAD_UPDATE_REQUEST,
+  UNAUTHORIZED_ERROR,
+  MONGO_ERROR,
+  VALIDATION_ERROR,
+  CAST_ERROR,
+} = require('../utils/constants');
 
 // контроллер получения информации текущего пользователя
 module.exports.getMe = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден.');
+        throw new NotFoundError(USER_NOT_FOUND);
       }
       return res.send(user);
     })
@@ -38,11 +49,11 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        const error = new ExistingDataError('Пользователь с указанным email уже существует.');
+        const error = new ExistingDataError(CONFLICT_EMAIL_ERROR);
         return next(error);
       }
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
-        const error = new IncorrectDataError('Переданы некорректные данные при создании пользователя.');
+      if (err.name === VALIDATION_ERROR || err.name === CAST_ERROR) {
+        const error = new IncorrectDataError(BAD_DATA_REQUEST);
         return next(error);
       }
       return next(err);
@@ -59,15 +70,15 @@ module.exports.updateProfile = (req, res, next) => {
     })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь с указанным _id не найден.');
+        throw new NotFoundError(NOT_FOUND_USER_ID);
       }
       return res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
-        next(new IncorrectDataError('Переданы некорректные данные при обновлении профиля.'));
-      } else if (err.name === 'MongoError') {
-        next(new ExistingDataError('Пользователь с указанным email уже существует.'));
+      if (err.name === VALIDATION_ERROR || err.name === CAST_ERROR) {
+        next(new IncorrectDataError(BAD_UPDATE_REQUEST));
+      } else if (err.name === MONGO_ERROR) {
+        next(new ExistingDataError(CONFLICT_EMAIL_ERROR));
       }
       next(err);
     });
@@ -91,7 +102,7 @@ module.exports.login = (req, res, next) => {
     })
     .catch(() => {
       // ошибка аутентификации
-      throw new AuthorizationError('Передан неверный логин или пароль.');
+      throw new AuthorizationError(UNAUTHORIZED_ERROR);
     })
     .catch(next);
 };
