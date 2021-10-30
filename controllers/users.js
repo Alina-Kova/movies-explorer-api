@@ -38,9 +38,7 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
-      // eslint-disable-next-line no-shadow
-      const { _id, email } = user;
-      res.status(200).send({ _id, email });
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {

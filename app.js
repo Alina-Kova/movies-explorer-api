@@ -24,7 +24,6 @@ const corsOptions = [
   'http://api.movies.poisk.nomoredomains.rocks',
 ];
 
-// eslint-disable-next-line consistent-return
 app.use((req, res, next) => {
   const { origin } = req.headers;
   if (corsOptions.includes(origin)) {
@@ -39,7 +38,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', requestHeaders);
     return res.end();
   }
-  next();
+  return next();
 });
 
 app.use(bodyParser.json());
@@ -63,7 +62,4 @@ app.use(errorLogger);
 app.use(errors());
 app.use(middlewaresErrors);
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App listening on port ${PORT}`);
-});
+app.listen(PORT);

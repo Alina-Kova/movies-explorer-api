@@ -52,11 +52,11 @@ module.exports.createMovie = (req, res, next) => {
 // контроллер удаления фиальма
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
-    // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie) {
-        const error = new NotFoundError('Фильм с указанным _id не найден.');
-        return next(error);
+        // const error = new NotFoundError('Фильм с указанным _id не найден.');
+        // return next(error);
+        throw new NotFoundError('Фильм с указанным _id не найден.');
       }
       if (movie.owner.toString() !== req.user._id.toString()) {
         throw new ForbiddenError('Невозможно удалить фильм, он создан другим пользователем.');
