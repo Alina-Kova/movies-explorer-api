@@ -41,7 +41,7 @@ module.exports.createUser = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'MongoError' && err.code === 11000) {
+      if (err.code === 11000) {
         const error = new ExistingDataError('Пользователь с указанным email уже существует.');
         return next(error);
       }
