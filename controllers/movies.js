@@ -8,6 +8,7 @@ const {
   FORBIDDEN_ERROR,
   VALIDATION_ERROR,
   CAST_ERROR,
+  SUCCESSFULLY_DELETED,
 } = require('../utils/constants');
 
 // контроллер поиска фиальма

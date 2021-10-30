@@ -29,7 +29,7 @@ module.exports.getMe = (req, res, next) => {
       return res.send(user);
     })
     .catch((err) => {
-        next(err);
+      next(err);
     });
 };
 
