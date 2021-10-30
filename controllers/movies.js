@@ -61,7 +61,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (movie.owner.toString() !== req.user._id.toString()) {
         throw new ForbiddenError('Невозможно удалить фильм, он создан другим пользователем.');
       }
-      Movie.findByIdAndDelete(req.params.id)
+      Movie.findByIdAndDelete(req.params.movieId)
         .then((movieRemoval) => {
           res.send({ data: movieRemoval });
         });
