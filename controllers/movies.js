@@ -54,16 +54,14 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        // const error = new NotFoundError('Фильм с указанным _id не найден.');
-        // return next(error);
         throw new NotFoundError('Фильм с указанным _id не найден.');
       }
       if (movie.owner.toString() !== req.user._id.toString()) {
         throw new ForbiddenError('Невозможно удалить фильм, он создан другим пользователем.');
       }
-      Movie.findByIdAndDelete(req.params.movieId)
-        .then((movieRemoval) => {
-          res.send({ data: movieRemoval });
+      return Movie.remove(req.params.movieId)
+        .then(() => {
+          res.status(200).send({ message: 'Фильм успешно удален.' });
         });
     })
     .catch((err) => {
