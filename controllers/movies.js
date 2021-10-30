@@ -6,7 +6,7 @@ const ForbiddenError = require('../errors/forbidden-err');
 // контроллер поиска фиальма
 module.exports.getMovie = (req, res, next) => {
   Movie.find({})
-    .then((movie) => res.send({ data: movie }))
+    .then((movie) => res.send(movie))
     .catch(next);
 };
 
@@ -39,7 +39,7 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
   })
-    .then((movie) => res.send({ data: movie }))
+    .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         const error = new IncorrectDataError('Переданы некорректные данные.');

@@ -15,14 +15,10 @@ module.exports.getMe = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь не найден.');
       }
-      return res.send({ data: user });
+      return res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        const error = new IncorrectDataError('Переданы некорректные данные.');
-        return next(error);
-      }
-      return next(err);
+        next(err);
     });
 };
 
@@ -65,7 +61,7 @@ module.exports.updateProfile = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь с указанным _id не найден.');
       }
-      return res.send({ data: user });
+      return res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
