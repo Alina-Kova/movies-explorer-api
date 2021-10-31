@@ -14,7 +14,6 @@ const {
   NOT_FOUND_USER_ID,
   BAD_UPDATE_REQUEST,
   UNAUTHORIZED_ERROR,
-  MONGO_ERROR,
   VALIDATION_ERROR,
   CAST_ERROR,
 } = require('../utils/constants');
@@ -77,7 +76,7 @@ module.exports.updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === VALIDATION_ERROR || err.name === CAST_ERROR) {
         next(new IncorrectDataError(BAD_UPDATE_REQUEST));
-      } else if (err.name === MONGO_ERROR) {
+      } else if (err.code === 11000) {
         next(new ExistingDataError(CONFLICT_EMAIL_ERROR));
       }
       next(err);

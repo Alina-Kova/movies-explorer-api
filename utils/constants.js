@@ -6,7 +6,6 @@ const BAD_UPDATE_REQUEST = 'Переданы некорректные данны
 const UNAUTHORIZED_ERROR = 'Передан неверный логин или пароль.';
 const VALIDATION_ERROR = 'ValidationError';
 const CAST_ERROR = 'CastError';
-const MONGO_ERROR = 'MongoError';
 const BAD_MOVIE_DATA_REQUEST = 'Переданы некорректные данные.';
 const NOT_FOUND_MOVIE_ID = 'Фильм с указанным _id не найден.';
 const FORBIDDEN_ERROR = 'Невозможно удалить фильм, он создан другим пользователем.';
@@ -26,7 +25,6 @@ module.exports = {
   NOT_FOUND_USER_ID,
   BAD_UPDATE_REQUEST,
   UNAUTHORIZED_ERROR,
-  MONGO_ERROR,
   VALIDATION_ERROR,
   CAST_ERROR,
   BAD_MOVIE_DATA_REQUEST,
